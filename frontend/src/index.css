@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================
+   Understand Deen — Global Styles
+   ============================================= */
+
+@layer base {
+  html {
+    font-family: 'DM Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-parchment-50 text-stone-900;
+  }
+
+  /* Smooth scrolling */
+  * {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+
+  /* ---- Form Input Base ---- */
+  .deen-input {
+    @apply w-full px-4 py-3 rounded-xl border border-stone-200 bg-white
+           font-body text-stone-800 placeholder-stone-400
+           focus:outline-none focus:ring-2 focus:ring-deen-700 focus:border-transparent
+           transition-all duration-200;
+  }
+
+  .deen-input-error {
+    @apply border-red-400 focus:ring-red-400;
+  }
+
+  /* ---- Primary Button ---- */
+  .btn-primary {
+    @apply w-full py-3.5 px-6 bg-deen-800 hover:bg-deen-900
+           text-white font-body font-medium text-base rounded-xl
+           transition-all duration-200 active:scale-[0.98]
+           disabled:opacity-60 disabled:cursor-not-allowed
+           flex items-center justify-center gap-2;
+  }
+
+  /* ---- Link style ---- */
+  .deen-link {
+    @apply text-deen-700 hover:text-deen-900 font-medium
+           underline underline-offset-2 transition-colors duration-150;
+  }
+
+  /* ---- Error message ---- */
+  .field-error {
+    @apply text-red-500 text-xs mt-1.5 flex items-center gap-1;
+  }
+}
+
+/* =============================================
+   Islamic Star Pattern — Decorative SVG fill
+   Used in auth panel background
+   ============================================= */
+.islamic-pattern {
+  background-color: #13674b;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M40 0L49.4 14.6L66.6 9.4L61.4 26.6L76 36L61.4 45.4L66.6 62.6L49.4 57.4L40 72L30.6 57.4L13.4 62.6L18.6 45.4L4 36L18.6 26.6L13.4 9.4L30.6 14.6L40 0Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* =============================================
+   Animation delay utilities
+   ============================================= */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.opacity-0-init { opacity: 0; }
+
+/* Spinner for loading state */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
