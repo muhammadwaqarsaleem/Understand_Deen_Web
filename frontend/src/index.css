@@ -1,90 +1,532 @@
+/* =============================================================
+   index.css — Understand Deen Global Stylesheet
+   =============================================================
+   Structure of this file:
+     1. Tailwind Directives
+     2. CSS Custom Properties (Theme Variables)
+        a. :root            → Light theme (default)
+        b. html.dark        → Dark theme
+        c. html.sepia       → Sepia theme
+     3. Base HTML element styles
+     4. Reusable Component Classes (@layer components)
+        - Form inputs
+        - Buttons
+        - Cards
+        - Badges / Pills
+        - Utility helpers
+     5. Arabic text rendering
+     6. Animation helpers
+     7. Scrollbar customization
+     8. Islamic decorative pattern class
+
+   THEMING SYSTEM:
+   ThemeContext.jsx adds 'dark' or 'sepia' class to <html>.
+   Components should use CSS variables (var(--bg-primary)) or
+   the Tailwind CSS variable bridge tokens (bg-theme-base) for
+   any color that needs to change between themes.
+   Static brand colors (deen-800, gold-500) stay the same
+   across all themes and should be used for brand elements.
+   ============================================================= */
+
+/* ── 1. Tailwind Directives ─────────────────────────────────── */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* =============================================
-   Understand Deen — Global Styles
-   ============================================= */
 
+/* ── 2a. LIGHT THEME (Default — :root) ─────────────────────── */
+/* These are the values when NO class is on <html>.              */
+:root {
+  /* Backgrounds */
+  --bg-primary:     #fdfcf8;   /* Page base (parchment-50) */
+  --bg-card:        #ffffff;   /* Card surfaces */
+  --bg-elevated:    #f8f7f3;   /* Slightly elevated: sidebar, header */
+  --bg-input:       #ffffff;   /* Input fields */
+  --bg-hover:       #f4f4f1;   /* Hover state on clickable rows */
+  --bg-overlay:     rgba(0, 0, 0, 0.4); /* Modal backdrop */
+
+  /* Borders */
+  --border-primary:   #e8e5de;  /* Default border (warm gray) */
+  --border-secondary: #f0ede6;  /* Subtle border (between list items) */
+  --border-focus:     #13674b;  /* Focus ring on inputs (deen-800) */
+
+  /* Text */
+  --text-primary:    #1c1917;   /* Headings, primary content (stone-900) */
+  --text-secondary:  #57534e;   /* Body copy, descriptions (stone-600) */
+  --text-muted:      #a8a29e;   /* Placeholders, hints (stone-400) */
+  --text-inverse:    #ffffff;   /* Text on dark backgrounds */
+
+  /* Semantic / Brand */
+  --accent-primary:  #13674b;   /* deen-800 — buttons, active states */
+  --accent-hover:    #115540;   /* deen-900 — button hover */
+  --accent-light:    #f0fdf8;   /* deen-50 — badge backgrounds */
+  --accent-border:   #bbf7e0;   /* deen-200 — badge borders */
+  --gold:            #f59e0b;   /* gold-500 — Hijri date, Arabic labels */
+
+  /* Scrollbar */
+  --scrollbar-thumb: #d4cfc6;
+  --scrollbar-track: #fdfcf8;
+
+  /* Arabic text color */
+  --arabic-text: #1c1917;
+
+  /* Heatmap colors (Habit Tracker — Step 8) */
+  --heatmap-empty:   #e8e5de;
+  --heatmap-low:     #bbf7e0;
+  --heatmap-mid:     #4adea8;
+  --heatmap-high:    #13674b;
+}
+
+
+/* ── 2b. DARK THEME — html.dark ────────────────────────────── */
+/* ThemeContext adds 'dark' class to <html> for this theme.      */
+html.dark {
+  /* Backgrounds */
+  --bg-primary:     #0f1714;   /* Very dark green-tinted black */
+  --bg-card:        #1a2420;   /* Card surfaces (slightly lighter) */
+  --bg-elevated:    #1f2d28;   /* Sidebar, nav, elevated panels */
+  --bg-input:       #1a2420;   /* Input fields */
+  --bg-hover:       #243028;   /* Hover state */
+  --bg-overlay:     rgba(0, 0, 0, 0.7);
+
+  /* Borders */
+  --border-primary:   #2a3d36;
+  --border-secondary: #1f2d28;
+  --border-focus:     #22c58c;  /* Slightly brighter green for dark bg */
+
+  /* Text */
+  --text-primary:    #f0ede6;   /* Warm white (not pure #fff for comfort) */
+  --text-secondary:  #a8b5ae;   /* Muted green-gray */
+  --text-muted:      #5a7060;   /* Very muted */
+  --text-inverse:    #0f1714;   /* Text on light/accent backgrounds */
+
+  /* Semantic / Brand */
+  --accent-primary:  #22c58c;   /* Brighter green for dark mode visibility */
+  --accent-hover:    #14a374;
+  --accent-light:    #0f2d22;
+  --accent-border:   #1a4a35;
+  --gold:            #fbbf24;   /* gold-400 — slightly brighter for dark */
+
+  /* Scrollbar */
+  --scrollbar-thumb: #2a3d36;
+  --scrollbar-track: #0f1714;
+
+  /* Arabic text */
+  --arabic-text: #e8e5de;
+
+  /* Heatmap */
+  --heatmap-empty:   #1f2d28;
+  --heatmap-low:     #0f2d22;
+  --heatmap-mid:     #14a374;
+  --heatmap-high:    #22c58c;
+}
+
+
+/* ── 2c. SEPIA THEME — html.sepia ───────────────────────────── */
+/* ThemeContext adds 'sepia' class to <html> for this theme.     */
+/* Inspired by old manuscript pages — warm amber tones for       */
+/* comfortable late-night reading sessions.                      */
+html.sepia {
+  /* Backgrounds */
+  --bg-primary:     #fdf4e3;   /* Warm parchment */
+  --bg-card:        #fef8ec;   /* Slightly lighter parchment for cards */
+  --bg-elevated:    #f5e9cc;   /* Warm tan for sidebars */
+  --bg-input:       #fef8ec;
+  --bg-hover:       #f0e0b8;
+  --bg-overlay:     rgba(60, 30, 10, 0.5);
+
+  /* Borders */
+  --border-primary:   #e8d4a8;
+  --border-secondary: #f0e4c0;
+  --border-focus:     #a0622a;  /* Warm brown focus ring */
+
+  /* Text */
+  --text-primary:    #2c1810;   /* Dark warm brown */
+  --text-secondary:  #6b4226;   /* Medium warm brown */
+  --text-muted:      #b08860;   /* Light warm brown */
+  --text-inverse:    #fdf4e3;
+
+  /* Semantic / Brand */
+  --accent-primary:  #7a4a1e;   /* Deep warm brown for buttons */
+  --accent-hover:    #5c3616;
+  --accent-light:    #faefd8;
+  --accent-border:   #e8c47a;
+  --gold:            #c8914a;   /* Richer gold for sepia */
+
+  /* Scrollbar */
+  --scrollbar-thumb: #e0c890;
+  --scrollbar-track: #fdf4e3;
+
+  /* Arabic text */
+  --arabic-text: #1e1208;
+
+  /* Heatmap */
+  --heatmap-empty:   #ede0c4;
+  --heatmap-low:     #f2dbb0;
+  --heatmap-mid:     #c8914a;
+  --heatmap-high:    #7a4a1e;
+}
+
+
+/* ── 3. Base HTML Element Styles ────────────────────────────── */
 @layer base {
   html {
-    font-family: 'DM Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    /* Smooth theme transitions — 200ms so it feels intentional
+       but not sluggish. Applied to background and text only to
+       avoid animating layout properties unintentionally. */
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   body {
-    @apply bg-parchment-50 text-stone-900;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
   }
 
-  /* Smooth scrolling */
+  /* Restored from Deliverable 2: Smooth scrolling */
   * {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+  }
+
+  /* Heading elements use the display font */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+
+  /* All anchors inherit theme text color by default */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: var(--accent-primary);
+    color: var(--text-inverse);
   }
 }
 
+
+/* ── 4. Reusable Component Classes ──────────────────────────── */
 @layer components {
 
-  /* ---- Form Input Base ---- */
+  /* ── Form Inputs ─────────────────────────────────────────── */
   .deen-input {
-    @apply w-full px-4 py-3 rounded-xl border border-stone-200 bg-white
-           font-body text-stone-800 placeholder-stone-400
-           focus:outline-none focus:ring-2 focus:ring-deen-700 focus:border-transparent
+    @apply w-full px-4 py-3 rounded-xl font-body text-sm
            transition-all duration-200;
+    background-color: var(--bg-input);
+    color:            var(--text-primary);
+    border:           1px solid var(--border-primary);
   }
-
+  .deen-input::placeholder {
+    color: var(--text-muted);
+  }
+  .deen-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--border-focus) 15%, transparent);
+  }
   .deen-input-error {
-    @apply border-red-400 focus:ring-red-400;
+    border-color: #f87171 !important; /* red-400 */
+  }
+  .deen-input-error:focus {
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15) !important;
   }
 
-  /* ---- Primary Button ---- */
+  /* ── Buttons ─────────────────────────────────────────────── */
+
+  /* Primary — filled brand green (w-full restored for Deliverable 2 compatibility) */
   .btn-primary {
-    @apply w-full py-3.5 px-6 bg-deen-800 hover:bg-deen-900
-           text-white font-body font-medium text-base rounded-xl
+    @apply w-full inline-flex items-center justify-center gap-2
+           px-6 py-3.5 rounded-xl font-body font-medium text-base
            transition-all duration-200 active:scale-[0.98]
-           disabled:opacity-60 disabled:cursor-not-allowed
-           flex items-center justify-center gap-2;
+           disabled:opacity-60 disabled:cursor-not-allowed;
+    background-color: var(--accent-primary);
+    color:            var(--text-inverse);
+  }
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--accent-hover);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--accent-primary) 30%, transparent);
   }
 
-  /* ---- Link style ---- */
+  /* Secondary — outlined */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2
+           px-6 py-3 rounded-xl font-body font-medium text-sm
+           transition-all duration-200 active:scale-[0.98]
+           disabled:opacity-60 disabled:cursor-not-allowed;
+    background-color: transparent;
+    color:            var(--accent-primary);
+    border:           1px solid var(--accent-primary);
+  }
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--accent-light);
+  }
+
+  /* Ghost — no border, subtle hover */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2
+           px-4 py-2 rounded-xl font-body font-medium text-sm
+           transition-all duration-200 active:scale-[0.98];
+    color:            var(--text-secondary);
+    background-color: transparent;
+  }
+  .btn-ghost:hover {
+    background-color: var(--bg-hover);
+    color:            var(--text-primary);
+  }
+
+  /* Full-width variant wrapper */
+  .btn-full {
+    @apply w-full;
+  }
+
+  /* ── Cards ───────────────────────────────────────────────── */
+  .deen-card {
+    @apply rounded-2xl transition-all duration-200;
+    background-color: var(--bg-card);
+    border:           1px solid var(--border-primary);
+    box-shadow:       0 2px 12px rgba(0, 0, 0, 0.04);
+  }
+  .deen-card-hover:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    transform:  translateY(-2px);
+    border-color: var(--border-focus);
+  }
+
+  /* ── Navigation ─────────────────────────────────────────── */
+  .nav-link {
+    @apply inline-flex items-center gap-2 px-3 py-2 rounded-lg
+           font-body font-medium text-sm transition-all duration-150;
+    color: var(--text-secondary);
+  }
+  .nav-link:hover {
+    background-color: var(--bg-hover);
+    color:            var(--text-primary);
+  }
+  .nav-link.active {
+    background-color: var(--accent-light);
+    color:            var(--accent-primary);
+    border:           1px solid var(--accent-border);
+  }
+
+  /* ── Badges / Pills ─────────────────────────────────────── */
+  .badge {
+    @apply inline-flex items-center gap-1
+           px-2.5 py-1 rounded-full font-body font-medium text-xs;
+  }
+  .badge-green {
+    background-color: var(--accent-light);
+    color:            var(--accent-primary);
+    border:           1px solid var(--accent-border);
+  }
+  .badge-gold {
+    background-color: #fef3c7; /* amber-100 */
+    color:            #92400e; /* amber-800 */
+    border:           1px solid #fcd34d; /* amber-300 */
+  }
+  .badge-gray {
+    background-color: var(--bg-elevated);
+    color:            var(--text-secondary);
+    border:           1px solid var(--border-primary);
+  }
+
+  /* ── Links ───────────────────────────────────────────────── */
   .deen-link {
-    @apply text-deen-700 hover:text-deen-900 font-medium
-           underline underline-offset-2 transition-colors duration-150;
+    color:            var(--accent-primary);
+    font-weight:      500;
+    text-decoration:  underline;
+    text-underline-offset: 2px;
+    transition:       color 0.15s ease;
+  }
+  .deen-link:hover {
+    color: var(--accent-hover);
   }
 
-  /* ---- Error message ---- */
+  /* ── Field-level error message ──────────────────────────── */
   .field-error {
-    @apply text-red-500 text-xs mt-1.5 flex items-center gap-1;
+    @apply flex items-center gap-1 mt-1.5 text-xs;
+    color: #ef4444; /* red-500 — same across all themes for accessibility */
+  }
+
+  /* ── Section divider ─────────────────────────────────────── */
+  .deen-divider {
+    height: 1px;
+    background-color: var(--border-primary);
+    @apply my-4;
+  }
+
+  /* ── Islamic star motif background ──────────────────────── */
+  /* Used on hero sections, auth panels, module headers        */
+  .islamic-pattern {
+    background-color: var(--accent-primary);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M40 0L49.4 14.6L66.6 9.4L61.4 26.6L76 36L61.4 45.4L66.6 62.6L49.4 57.4L40 72L30.6 57.4L13.4 62.6L18.6 45.4L4 36L18.6 26.6L13.4 9.4L30.6 14.6L40 0Z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Sepia variant of the pattern */
+  html.sepia .islamic-pattern {
+    background-color: var(--accent-primary);
+  }
+
+  /* ── Loading spinner ─────────────────────────────────────── */
+  .spinner {
+    width:         18px;
+    height:        18px;
+    border:        2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation:     spin 0.7s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ── Page wrapper ────────────────────────────────────────── */
+  .page-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+  }
+
+  /* ── Split-pane layout (Quran reader — Step 4) ───────────── */
+  /* Defined here so the layout class is available globally      */
+  .split-pane {
+    @apply flex h-screen overflow-hidden;
+  }
+  .split-pane-left {
+    @apply w-1/4 min-w-[240px] max-w-[320px] flex-shrink-0
+           overflow-y-auto;
+    background-color: var(--bg-elevated);
+    border-right: 1px solid var(--border-primary);
+  }
+  .split-pane-right {
+    @apply flex-1 overflow-y-auto;
+    background-color: var(--bg-primary);
   }
 }
 
-/* =============================================
-   Islamic Star Pattern — Decorative SVG fill
-   Used in auth panel background
-   ============================================= */
-.islamic-pattern {
-  background-color: #13674b;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M40 0L49.4 14.6L66.6 9.4L61.4 26.6L76 36L61.4 45.4L66.6 62.6L49.4 57.4L40 72L30.6 57.4L13.4 62.6L18.6 45.4L4 36L18.6 26.6L13.4 9.4L30.6 14.6L40 0Z'/%3E%3C/g%3E%3C/svg%3E");
+
+/* ── 5. Arabic Text Rendering ───────────────────────────────── */
+/* Applied to any element that renders Arabic text              */
+.arabic-text {
+  font-family:     'Amiri', 'Traditional Arabic', serif;
+  direction:       rtl;
+  color:           var(--arabic-text);
+  line-height:     2;              /* Arabic needs generous line height */
+  letter-spacing:  0;              /* No letter spacing for Arabic */
 }
 
-/* =============================================
-   Animation delay utilities
-   ============================================= */
+/* Scale variants */
+.arabic-text-sm  { font-size: 1.125rem; }  /* Hadith, small references */
+.arabic-text-md  { font-size: 1.5rem;   }  /* Ayat in compact view */
+.arabic-text-lg  { font-size: 2rem;     }  /* Ayat in reader view */
+.arabic-text-xl  { font-size: 2.5rem;   }  /* Featured Ayat, hero Bismillah */
+.arabic-text-2xl { font-size: 3rem;     }  /* Full-width Quran reader */
+
+/* Uthmanic script class — add to <html> when arabicScript = 'Uthmanic'  */
+/* In Step 9, the Profile page will toggle between these two classes      */
+/* Both use 'Amiri' as fallback; Uthmanic would use 'KFGQPC Uthmanic'    */
+/* if a custom font is loaded; for now both render identically            */
+html .script-uthmanic .arabic-text { font-family: 'Amiri', serif; }
+html .script-naskh    .arabic-text { font-family: 'Amiri', serif; }
+
+
+/* ── 6. Animation Helpers ───────────────────────────────────── */
+@keyframes fadeInUp {
+  0%   { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0);    }
+}
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes slideInLeft {
+  0%   { opacity: 0; transform: translateX(-16px); }
+  100% { opacity: 1; transform: translateX(0);     }
+}
+@keyframes slideInRight {
+  0%   { opacity: 0; transform: translateX(16px); }
+  100% { opacity: 1; transform: translateX(0);    }
+}
+@keyframes scaleIn {
+  0%   { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1);    }
+}
+
+.animate-fade-in-up    { animation: fadeInUp  0.5s ease-out forwards; }
+.animate-fade-in       { animation: fadeIn    0.4s ease-out forwards; }
+.animate-slide-in-left { animation: slideInLeft 0.35s ease-out forwards; }
+.animate-slide-in-right{ animation: slideInRight 0.35s ease-out forwards; }
+.animate-scale-in      { animation: scaleIn   0.3s ease-out forwards; }
+
+/* Animation delay utilities — for staggered list animations */
+.delay-75  { animation-delay: 75ms;  }
 .delay-100 { animation-delay: 100ms; }
+.delay-150 { animation-delay: 150ms; }
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 .delay-400 { animation-delay: 400ms; }
-.opacity-0-init { opacity: 0; }
+.delay-500 { animation-delay: 500ms; }
 
-/* Spinner for loading state */
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* Start invisible — add this when using animation delays so the
+   element doesn't flash at full opacity before the animation starts */
+/* Restored: Keep both opacity-0-init (old) and opacity-init (new) */
+.opacity-init, .opacity-0-init { opacity: 0; }
+
+
+/* ── 7. Custom Scrollbar ────────────────────────────────────── */
+/* WebKit browsers (Chrome, Edge, Safari)                        */
+::-webkit-scrollbar {
+  width:  6px;
+  height: 6px;
 }
-.spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
-  border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background:    var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+
+/* ── 8. Habit Tracker Heatmap ───────────────────────────────── */
+/* CSS classes for the GitHub-style contribution heatmap.        */
+/* Used in Step 8 (HabitTracker.jsx).                            */
+.heatmap-cell {
+  width:         16px;
+  height:        16px;
+  border-radius: 3px;
+  background-color: var(--heatmap-empty);
+  transition:    background-color 0.2s ease, transform 0.15s ease;
+  cursor:        default;
+}
+.heatmap-cell:hover {
+  transform: scale(1.2);
+}
+.heatmap-cell[data-level="1"] { background-color: var(--heatmap-low);  }
+.heatmap-cell[data-level="2"] { background-color: var(--heatmap-mid);  }
+.heatmap-cell[data-level="3"] { background-color: var(--heatmap-high); }
+
+
+/* ── 9. Transition Override ─────────────────────────────────── */
+/* Suppress ALL transitions during theme switch to prevent the   */
+/* brief flash of mixed colors. ThemeContext adds/removes this   */
+/* class on <html> around the theme change.                      */
+/* (Not implemented yet but the class is ready to use)           */
+.no-transition * {
+  transition: none !important;
 }

@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useApp } from '../context/AppContext'; // ell AppContext to update its state immediately after a successful login.
 
 const API_BASE = 'http://localhost:5000/api';
 
@@ -45,6 +46,7 @@ export default function Login() {
   const [showPassword, setShowPw]   = useState(false);
   const [isLoading, setIsLoading]   = useState(false);
   const [serverError, setServerErr] = useState('');
+  const { setUser } = useApp();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,8 +77,11 @@ export default function Login() {
       localStorage.setItem('ud_token', data.token);
       localStorage.setItem('ud_user',  JSON.stringify(data.user));
 
-      // Redirect to dashboard
-      navigate('/dashboard', { replace: true });
+      // Update user info in AppContext
+      setUser(data.user);
+
+      // Redirect to home
+      navigate('/home', { replace: true });
 
     } catch (err) {
       const message = err.response?.data?.message || 'Something went wrong. Please try again.';
