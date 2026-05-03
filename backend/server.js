@@ -2,21 +2,37 @@
 // server.js — Express Application Entry Point
 // Understand Deen API
 // =============================================================
+// Route registry:
+//   /api/auth  → routes/auth.js   (login, signup)
+//   /api/home  → routes/home.js   (daily-zikr)       ← Step 3
+//
+// Future routes to add here as steps are completed:
+//   /api/quran      → routes/quran.js      (Step 4)
+//   /api/hadith     → routes/hadith.js     (Step 5)
+//   /api/newmuslim  → routes/newmuslim.js  (Step 6)
+//   /api/fiqh       → routes/fiqh.js       (Step 7)
+//   /api/habits     → routes/habits.js     (Step 8)
+//   /api/preferences→ routes/preferences.js(Step 9)
+//   /api/bookmarks  → routes/bookmarks.js  (Step 10)
+// =============================================================
 
 require('dotenv').config();
 const express    = require('express');
 const cors       = require('cors');
 const { closePool } = require('./db');
+
+// ── Route imports ─────────────────────────────────────────────
 const authRoutes = require('./routes/auth');
+const homeRoutes = require('./routes/home'); // ← Step 3
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
 
 // =============================================================
-// Middleware
+// Global Middleware
 // =============================================================
 
-// CORS: Allow only our React frontend origin
+// CORS: allow only our Vite dev server origin
 app.use(cors({
   origin:      process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   credentials: true,
@@ -26,13 +42,12 @@ app.use(cors({
 app.use(express.json());
 
 // =============================================================
-// Routes
+// Route Registration
 // =============================================================
-
-// Authentication (signup / login)
 app.use('/api/auth', authRoutes);
+app.use('/api/home', homeRoutes); // ← Step 3
 
-// Health check — useful for testing the server is alive
+// Health check — quick way to verify the server is live
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status:  'ok',
@@ -41,7 +56,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// 404 handler for unknown routes
+// 404 handler — catches any unregistered route
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found.' });
 });
@@ -54,7 +69,7 @@ const server = app.listen(PORT, () => {
 });
 
 // =============================================================
-// Graceful Shutdown — close DB pool before exiting
+// Graceful Shutdown — drain DB pool before process exits
 // =============================================================
 const shutdown = async (signal) => {
   console.log(`\n[Server] ${signal} received. Shutting down gracefully...`);
