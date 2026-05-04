@@ -5,9 +5,9 @@
 // Route registry:
 //   /api/auth  → routes/auth.js   (login, signup)
 //   /api/home  → routes/home.js   (daily-zikr)       ← Step 3
+//   /api/quran → routes/quran.js  (surahs, ayat)     ← Step 4
 //
 // Future routes to add here as steps are completed:
-//   /api/quran      → routes/quran.js      (Step 4)
 //   /api/hadith     → routes/hadith.js     (Step 5)
 //   /api/newmuslim  → routes/newmuslim.js  (Step 6)
 //   /api/fiqh       → routes/fiqh.js       (Step 7)
@@ -22,8 +22,9 @@ const cors       = require('cors');
 const { closePool } = require('./db');
 
 // ── Route imports ─────────────────────────────────────────────
-const authRoutes = require('./routes/auth');
-const homeRoutes = require('./routes/home'); // ← Step 3
+const authRoutes  = require('./routes/auth');
+const homeRoutes  = require('./routes/home'); 
+const quranRoutes = require('./routes/quran'); // ← Step 4 Added Here
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
@@ -45,7 +46,8 @@ app.use(express.json());
 // Route Registration
 // =============================================================
 app.use('/api/auth', authRoutes);
-app.use('/api/home', homeRoutes); // ← Step 3
+app.use('/api/home', homeRoutes); 
+app.use('/api/quran', quranRoutes); // ← Step 4 Added Here
 
 // Health check — quick way to verify the server is live
 app.get('/api/health', (req, res) => {

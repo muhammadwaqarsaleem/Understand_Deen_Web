@@ -6,6 +6,7 @@
 //   Step 1: Added ThemeProvider, AppProvider, updated route guards
 //   Step 2: Added AppLayout wrapping all protected routes
 //   Step 3: Replaced inline Home placeholder with real Home.jsx import
+//   Step 4: Replaced inline Quran placeholder with real Quran.jsx import
 //
 // RESPONSIVE RULE (from Step 2 fix):
 //   Never use inline display styles for responsive behavior.
@@ -17,14 +18,14 @@
 //     /signup   → Signup.jsx
 //
 //   PROTECTED (wrapped in AppLayout):
-//     /home        → Home.jsx        ✅ Step 3
-//     /quran       → placeholder     (Step 4)
-//     /hadith      → placeholder     (Step 5)
-//     /new-muslim  → placeholder     (Step 6)
-//     /fiqh        → placeholder     (Step 7)
-//     /habits      → placeholder     (Step 8)
-//     /profile     → placeholder     (Step 9)
-//     /dashboard   → Dashboard.jsx   (Deliverable 2, bare)
+//     /home         → Home.jsx         ✅ Step 3
+//     /quran        → Quran.jsx        ✅ Step 4
+//     /hadith       → placeholder      (Step 5)
+//     /new-muslim   → placeholder      (Step 6)
+//     /fiqh         → placeholder      (Step 7)
+//     /habits       → placeholder      (Step 8)
+//     /profile      → placeholder      (Step 9)
+//     /dashboard    → Dashboard.jsx    (Deliverable 2, bare)
 // =============================================================
 
 import React from 'react';
@@ -43,10 +44,11 @@ import Signup    from './pages/Signup.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 
 // ── Real Pages (replace placeholders as steps complete) ───────
-import Home from './pages/Home.jsx'; // ✅ Step 3
+import Home  from './pages/Home.jsx';  // ✅ Step 3
+import Quran from './pages/Quran.jsx'; // ✅ Step 4
 
 // =============================================================
-// PLACEHOLDER — used for steps not yet built (Steps 4–9)
+// PLACEHOLDER — used for steps not yet built (Steps 5–9)
 // Replace each one with a real import as its step is completed.
 // Uses CSS variables so it themes correctly in all 3 modes.
 // =============================================================
@@ -81,11 +83,7 @@ const PlaceholderPage = ({ title, description, icon, step }) => (
   </div>
 );
 
-// ── Placeholder definitions (Steps 4–9) ─────────────────────
-const Quran = () => (
-  <PlaceholderPage icon="📖" title="Quran" step="Step 4"
-    description="Split-pane reader: Surah list left, Ayat viewer right with Arabic + English + Tafseer." />
-);
+// ── Placeholder definitions (Steps 5–9) ─────────────────────
 const Hadith = () => (
   <PlaceholderPage icon="📜" title="Hadith" step="Step 5"
     description="Six Kutub al-Sittah book cards, chapter browser, and keyword search." />
