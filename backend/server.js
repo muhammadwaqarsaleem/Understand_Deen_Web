@@ -22,9 +22,10 @@ const cors       = require('cors');
 const { closePool } = require('./db');
 
 // ── Route imports ─────────────────────────────────────────────
-const authRoutes  = require('./routes/auth');
-const homeRoutes  = require('./routes/home'); 
-const quranRoutes = require('./routes/quran'); // ← Step 4 Added Here
+const authRoutes   = require('./routes/auth');
+const homeRoutes   = require('./routes/home');
+const quranRoutes  = require('./routes/quran');  // ← Step 4
+const hadithRoutes = require('./routes/hadith'); // ← Step 5
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
@@ -45,9 +46,10 @@ app.use(express.json());
 // =============================================================
 // Route Registration
 // =============================================================
-app.use('/api/auth', authRoutes);
-app.use('/api/home', homeRoutes); 
-app.use('/api/quran', quranRoutes); // ← Step 4 Added Here
+app.use('/api/auth',   authRoutes);
+app.use('/api/home',   homeRoutes);
+app.use('/api/quran',  quranRoutes);  // ← Step 4
+app.use('/api/hadith', hadithRoutes); // ← Step 5
 
 // Health check — quick way to verify the server is live
 app.get('/api/health', (req, res) => {
