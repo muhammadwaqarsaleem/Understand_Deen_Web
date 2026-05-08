@@ -51,6 +51,8 @@ const dbConfig = {
   // Node.js native binding to load when executing the connection.
   driver: 'msnodesqlv8',
 
+  requestTimeout: 60000, // <--- ADD THIS LINE (60 seconds)
+
   options: {
     trustServerCertificate: true, // Accept self-signed cert on local dev instances
   },
@@ -58,7 +60,7 @@ const dbConfig = {
   pool: {
     max:               10,    // Maximum concurrent connections in the pool
     min:               2,     // Keep 2 connections warm at all times
-    idleTimeoutMillis: 30000, // Release a connection after 30s of inactivity
+    idleTimeoutMillis: 600000, // Release a connection after 10 minutes of inactivity
   },
 };
 

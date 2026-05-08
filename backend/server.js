@@ -2,18 +2,18 @@
 // server.js — Express Application Entry Point
 // Understand Deen API
 // =============================================================
-// Route registry:
-//   /api/auth  → routes/auth.js   (login, signup)
-//   /api/home  → routes/home.js   (daily-zikr)       ← Step 3
-//   /api/quran → routes/quran.js  (surahs, ayat)     ← Step 4
+// REGISTERED ROUTES (current after Step 5):
+//   /api/auth   → routes/auth.js   (signup, login)
+//   /api/home   → routes/home.js   (daily-zikr)
+//   /api/quran  → routes/quran.js  (surahs list, per-Surah Ayat)
+//   /api/hadith → routes/hadith.js (books, chapters, Ahadith)     ← Step 5 NEW
 //
-// Future routes to add here as steps are completed:
-//   /api/hadith     → routes/hadith.js     (Step 5)
-//   /api/newmuslim  → routes/newmuslim.js  (Step 6)
-//   /api/fiqh       → routes/fiqh.js       (Step 7)
-//   /api/habits     → routes/habits.js     (Step 8)
-//   /api/preferences→ routes/preferences.js(Step 9)
-//   /api/bookmarks  → routes/bookmarks.js  (Step 10)
+// FUTURE ROUTES (Steps 6–9):
+//   /api/newmuslim → routes/newmuslim.js (Step 6)
+//   /api/fiqh      → routes/fiqh.js      (Step 7)
+//   /api/habits    → routes/habits.js    (Step 8)
+//   /api/preferences→ routes/preferences.js (Step 9)
+//   /api/bookmarks → routes/bookmarks.js (Step 10)
 // =============================================================
 
 require('dotenv').config();
@@ -22,9 +22,10 @@ const cors       = require('cors');
 const { closePool } = require('./db');
 
 // ── Route imports ─────────────────────────────────────────────
-const authRoutes  = require('./routes/auth');
-const homeRoutes  = require('./routes/home'); 
-const quranRoutes = require('./routes/quran'); // ← Step 4 Added Here
+const authRoutes   = require('./routes/auth');
+const homeRoutes   = require('./routes/home'); 
+const quranRoutes  = require('./routes/quran'); 
+const hadithRoutes = require('./routes/hadith'); // ← Step 5 Added Here
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
@@ -36,7 +37,7 @@ const PORT = process.env.PORT || 5000;
 // CORS: allow only our Vite dev server origin
 app.use(cors({
   origin:      process.env.CLIENT_ORIGIN || 'http://localhost:5173',
-  credentials: true,
+  credentials: true, // Kept this! Crucial for Auth.
 }));
 
 // Parse JSON request bodies
@@ -47,7 +48,8 @@ app.use(express.json());
 // =============================================================
 app.use('/api/auth', authRoutes);
 app.use('/api/home', homeRoutes); 
-app.use('/api/quran', quranRoutes); // ← Step 4 Added Here
+app.use('/api/quran', quranRoutes); 
+app.use('/api/hadith', hadithRoutes); // ← Step 5 Added Here
 
 // Health check — quick way to verify the server is live
 app.get('/api/health', (req, res) => {
@@ -68,6 +70,7 @@ app.use((req, res) => {
 // =============================================================
 const server = app.listen(PORT, () => {
   console.log(`[Server] Understand Deen API running on http://localhost:${PORT}`);
+  console.log(`[Server] CORS origin: ${process.env.CLIENT_ORIGIN || 'http://localhost:5173'}`);
 });
 
 // =============================================================
@@ -76,7 +79,7 @@ const server = app.listen(PORT, () => {
 const shutdown = async (signal) => {
   console.log(`\n[Server] ${signal} received. Shutting down gracefully...`);
   server.close(async () => {
-    await closePool();
+    await closePool(); // Kept this! Crucial for preventing DB locking.
     console.log('[Server] Shutdown complete.');
     process.exit(0);
   });
