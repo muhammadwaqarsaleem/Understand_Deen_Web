@@ -22,7 +22,7 @@
 //     /home         → Home.jsx         ✅ Step 3
 //     /quran        → Quran.jsx        ✅ Step 4
 //     /hadith       → Hadith.jsx       ✅ Step 5
-//     /new-muslim   → placeholder      (Step 6)
+//     /new-muslim   → NewMuslim.jsx    ✅ Step 6
 //     /fiqh         → placeholder      (Step 7)
 //     /habits       → placeholder      (Step 8)
 //     /profile      → placeholder      (Step 9)
@@ -48,6 +48,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import Home   from './pages/Home.jsx';   // ✅ Step 3
 import Quran  from './pages/Quran.jsx';  // ✅ Step 4
 import Hadith from './pages/Hadith.jsx'; // ✅ Step 5
+import NewMuslim from './pages/NewMuslim.jsx'; // ✅ Step 6
 
 // =============================================================
 // PLACEHOLDER — used for steps not yet built (Steps 6–9)
@@ -86,12 +87,6 @@ const PlaceholderPage = ({ title, description, icon, step }) => (
 );
 
 // ── Placeholder definitions (Steps 6–9) ─────────────────────
-// Note: Hadith placeholder removed in Step 5!
-
-const NewMuslim = () => (
-  <PlaceholderPage icon="🌱" title="New Muslim Guide" step="Step 6"
-    description="8 fundamentals checklist with toggleable completion and progress bar." />
-);
 const Fiqh = () => (
   <PlaceholderPage icon="⚖️" title="Fiqh" step="Step 7"
     description="Sticky Madhab filter sidebar and ruling cards with 4-tab comparison." />

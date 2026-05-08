@@ -2,14 +2,14 @@
 // server.js — Express Application Entry Point
 // Understand Deen API
 // =============================================================
-// REGISTERED ROUTES (current after Step 5):
-//   /api/auth   → routes/auth.js   (signup, login)
-//   /api/home   → routes/home.js   (daily-zikr)
-//   /api/quran  → routes/quran.js  (surahs list, per-Surah Ayat)
-//   /api/hadith → routes/hadith.js (books, chapters, Ahadith)     ← Step 5 NEW
+// REGISTERED ROUTES (current after Step 6):
+//   /api/auth      → routes/auth.js      (signup, login)
+//   /api/home      → routes/home.js      (daily-zikr)
+//   /api/quran     → routes/quran.js     (surahs list, per-Surah Ayat)
+//   /api/hadith    → routes/hadith.js    (books, chapters, Ahadith)
+//   /api/newmuslim → routes/newmuslim.js (sections, progress, toggle) ← Step 6 NEW
 //
-// FUTURE ROUTES (Steps 6–9):
-//   /api/newmuslim → routes/newmuslim.js (Step 6)
+// FUTURE ROUTES (Steps 7–9):
 //   /api/fiqh      → routes/fiqh.js      (Step 7)
 //   /api/habits    → routes/habits.js    (Step 8)
 //   /api/preferences→ routes/preferences.js (Step 9)
@@ -22,10 +22,11 @@ const cors       = require('cors');
 const { closePool } = require('./db');
 
 // ── Route imports ─────────────────────────────────────────────
-const authRoutes   = require('./routes/auth');
-const homeRoutes   = require('./routes/home'); 
-const quranRoutes  = require('./routes/quran'); 
-const hadithRoutes = require('./routes/hadith'); // ← Step 5 Added Here
+const authRoutes      = require('./routes/auth');
+const homeRoutes      = require('./routes/home'); 
+const quranRoutes     = require('./routes/quran'); 
+const hadithRoutes    = require('./routes/hadith');
+const newmuslimRoutes = require('./routes/newmuslim'); // ← Step 6 Added Here
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
@@ -49,7 +50,8 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/home', homeRoutes); 
 app.use('/api/quran', quranRoutes); 
-app.use('/api/hadith', hadithRoutes); // ← Step 5 Added Here
+app.use('/api/hadith', hadithRoutes);
+app.use('/api/newmuslim', newmuslimRoutes); // ← Step 6 Added Here
 
 // Health check — quick way to verify the server is live
 app.get('/api/health', (req, res) => {
